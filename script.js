@@ -85,3 +85,29 @@ styleCheck.innerHTML = `
     }
 `;
 document.head.appendChild(styleCheck);
+
+/* ==================== VIEWER COUNT ==================== */
+function updateVisitCount() {
+    const counterContainer = document.getElementById('visit-count');
+    // Using counterapi.dev as countapi.xyz is down
+    const apiUrl = 'https://api.counterapi.dev/v1/shambhala-portfolio/visits/up';
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            counterContainer.innerText = data.count;
+        })
+        .catch(error => {
+            console.error('Error fetching visit count:', error);
+            counterContainer.innerText = 'Error';
+        });
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', updateVisitCount);
+
